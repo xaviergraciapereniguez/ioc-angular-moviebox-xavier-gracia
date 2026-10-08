@@ -9,4 +9,5 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('ioc-angular-moviebox-xavier-gracia');
+  public nomAplicacio = 'MovieBox';
 }
