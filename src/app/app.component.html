@@ -1,18 +1,85 @@
-<main class="app-shell">
-  <section class="intro">
-    <h1>{{ nomAplicacio }}</h1>
-    <p>Aplicació creada per Xavi Gracia per al mòdul DA2_OA01. Actua com un catàleg de pelicules</p>
-  </section>
+<a class="skip-link" href="#contingut-principal">
+  Salta al contingut principal
+</a>
 
-  <section class="project-card">
-    <h2>Dades del projecte</h2>
-    <p>Estat: Primera EAC entregada</p>
-    <p>Framework: Angular 22</p>
-  </section>
+<header class="capcalera">
+<h1>MovieBox</h1>
+<p>Catàleg de pel·lícules — Unitat 2: Components i interfície</p>
+</header>
 
-  <aside class="note">
-    <p>Nota: aquest projecte s'ampliarà durant el mòdul.</p>
-  </aside>
+<main class="contenidor" id="contingut-principal" tabindex="-1"> 
+<app-barra-filtres
+	class="filtres-zona"
+	(filtresCanviats)="actualitzaFiltres($event)"
+/>
+@if (carregant()) {
+  <section class="estat-carregant" aria-live="polite" aria-busy="true">
+    <div class="spinner" aria-hidden="true"></div>
+    <p>Carregant pel·licules...</p>
+  </section>
+} @else {
+  <section class="resultats">
+	<h2>
+		Pel·lícules
+		<span class="comptador" aria-live="polite">
+		{{ moviesFiltrats.length }} de {{ movies.length }}
+		</span>
+	</h2>
+	
+	@if (filtresActuals.text || filtresActuals.categoria !== 'Totes') {
+		<p class="info-filtres">
+		Filtres actius:
+		@if (filtresActuals.text) {
+			text «{{ filtresActuals.text }}»
+		}
+		@if (filtresActuals.categoria !== 'Totes') {
+			categoria {{ filtresActuals.categoria }}
+		}
+		</p>
+	}
+	
+	@if (moviesFiltrats.length > 0) {
+		<app-llista-movie
+		[movies]="moviesFiltrats"
+		[movieSeleccionatId]="movieSeleccionat?.id"
+		(selecciona)="seleccionaMovie($event)"
+		/>
+	} @else {
+		<div class="sense-resultats" role="status">
+		<p>No s'ha trobat cap pel·lícula amb aquests filtres.</p>
+		<p>Prova un altre text o tria la categoria «Totes».</p>
+		</div>
+	}
+	</section>
+}
+
+	
+
+
+<aside class="detall" aria-live="polite">
+	@if (movieSeleccionat) {
+	<h2>{{ movieSeleccionat.titol }}</h2>
+	<p>{{ movieSeleccionat.descripcio }}</p>
+	<p>
+		<strong>Categoria:</strong>
+		{{ movieSeleccionat.categoria }}
+	</p>
+	<p>
+		<strong>Data d'actualització:</strong>
+		{{ movieSeleccionat.dataActualitzacio }}
+	</p>
+	<p>
+		<strong>Valoració:</strong>
+		{{ movieSeleccionat.valoracio }}
+	</p>
+
+	<button type="button" (click)="tancaDetall()">
+		Tancar detall
+	</button>
+	} @else {
+	<p>Selecciona una pel·lícula per veure'n els detalls.</p>
+	}
+</aside>
 </main>
 
 <router-outlet />

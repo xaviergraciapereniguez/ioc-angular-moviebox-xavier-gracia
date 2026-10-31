@@ -1,0 +1,18 @@
+<article class="targeta" [class.seleccionada]="seleccionada">
+  <header class="targeta-capcalera">
+    <app-etiqueta-movie [categoria]="movie.categoria" [destacat]="movie.destacat ?? false" />
+    <time [attr.datetime]="movie.dataActualitzacio">
+      {{ movie.dataActualitzacio | date:'dd/MM/yyyy' }}
+    </time>
+  </header>
+
+  <h3>{{ movie.titol }}</h3>
+  <p>{{ movie.descripcio }}</p>
+
+  <p class="valoracio">
+    ★
+    {{ movie.valoracio }}/5
+  </p>
+
+  <button type="button" (click)="avisaSeleccio()">Veure detall</button>
+</article>

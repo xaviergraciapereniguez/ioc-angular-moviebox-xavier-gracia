@@ -1,0 +1,10 @@
+<section class="graella" aria-label="Llistat de pelicules">
+  @for (movie of movies; track movie.id) {
+    <app-targeta-movie
+      [movie]="movie"
+      [seleccionada]="movie.id === movieSeleccionatId"
+      (selecciona)="propagaSeleccio($event)" />
+  } @empty {
+    <p class="missatge-buit" role="status">No hi ha pelicules per mostrar.</p>
+  }
+</section>
